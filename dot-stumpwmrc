@@ -1,0 +1,148 @@
+;;;; -*- Mode: LISP; Syntax: Common-lisp; Base: 10.;  -*-
+
+(in-package :stumpwm)
+
+;;;
+
+(defun cat (&rest strings) "A shortcut for (concatenate 'string foo bar)."
+  (apply 'concatenate 'string strings))
+
+;;;
+
+(set-prefix-key (kbd "C-j"))
+
+;;;
+
+;; these commands are mainly intended to be called by external
+;; commands through the use of stumpish
+(defcommand stumpwm-input (prompt) ((:string "prompt: "))
+  "prompts the user for one line of input."
+  (read-one-line (current-screen) prompt))
+
+(defcommand stumpwm-password (prompt) ((:string "prompt: "))
+  "prompts the user for a password."
+  (read-one-line (current-screen) prompt :password t))
+
+;;;
+
+(load "/home/mostafa/source/slime/swank-loader.lisp")
+(swank-loader:init)
+(defcommand swank () ()
+  (setf stumpwm:*top-level-error-action* :break)
+  (swank:create-server :port 4005
+                       :style swank:*communication-style*
+                       :dont-close t)
+  (echo-string
+   (current-screen)
+   "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
+(swank)
+
+;;;
+
+(defcommand terminal () ()
+  "Start Firefox or switch to it, if it is already running."
+  (run-or-raise "urxvt" '(:class "URxvt")))
+(define-key *root-map* (kbd "C-c") "terminal")
+
+(defcommand new-terminal () ()
+  "Start Firefox or switch to it, if it is already running."
+  (run-shell-command "urxvt"))
+(define-key *root-map* (kbd "c") "new-terminal")
+
+;;;
+
+;; launch web browser
+;;(defcommand firefox () ()
+(defcommand web-browser () ()
+  "Start web browser or switch to it, if it is already running."
+  ;;(run-or-raise "firefox" '(:class "Firefox")))
+  (run-or-raise "chromium-browser" '(:class "Chromium")))
+(define-key *root-map* (kbd "x") "web-browser")
+(define-key *root-map* (kbd "C-x") "web-browser")
+
+;; ask the user for a search string and search for it in Wikipedia
+(defcommand wikipedia (search)
+  ((:string "Search in Wikipedia for: "))
+  "prompt the user for a search term and look it up in the English Wikipedia"
+  (check-type search string)
+  (let ((uri (format nil "http://en.wikipedia.org/wiki/Special:Search?search=~a" search)))
+    (run-shell-command
+     ;;(cat "firefox \"" uri "\""))))
+     (cat "chromium-browser \"" uri "\""))))
+
+;; ask the user for a search string and search for it in Google
+(defcommand google (search)
+  ((:string "Search in Google for: "))
+  "prompt the user for a search term and look it up in Google "
+  (check-type search string)
+  (let ((uri (format nil "http://www.google.com/search?q=~a" search)))
+    (run-shell-command
+     ;;(cat "firefox \"" uri "\""))))
+     (cat "chromium-browser \"" uri "\""))))
+
+;;;
+
+(defcommand emacs-in-tmux () ()
+  "attempts to switch to an emacs instance run in a tmux window
+   called 'emacs', itself inside a urxvt instance."
+
+  (let ((ret
+         (run-shell-command "tmux select-window -t emacs ; echo $?" t)))
+
+    (if (eql (elt ret 0) #\0)
+        (run-or-raise "urxvt" '(:class "URxvt"))
+        (message "no tmux session found."))))
+(define-key *root-map* (kbd "C-e") "emacs-in-tmux")
+
+;;;
+
+;; setup volume control key bindings
+(defcommand volume-up () ()
+  "Increases master volume by 5 percent."
+  (let ((result (run-shell-command "amixer sset Master 5%+" t)))
+    (cl-ppcre:register-groups-bind (pct) ("\\[(\\d+)%\\]" result)
+      (message "~a%" pct))))
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "volume-up")
+
+(defcommand volume-down () ()
+  "Increases master volume by 5 percent."
+  (let ((result (run-shell-command "amixer sset Master 5%-" t)))
+    (cl-ppcre:register-groups-bind (pct) ("\\[(\\d+)%\\]" result)
+      (message "~a%" pct))))
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "volume-down")
+
+(defcommand volume-mute-toggle () ()
+  "Mutes/Unmutes the master volume."
+  (cl-ppcre:register-groups-bind (state)
+      ("Mute: (yes|no)" (run-shell-command "pactl list" t))
+    (cond ((equalp state "yes")
+           (run-shell-command "pactl set-sink-mute 0 0")
+           (message "unmuted."))
+          (t
+           (run-shell-command "pactl set-sink-mute 0 1")
+           (message "muted.")))))
+
+(defcommand volume-mute-toggle () ()
+  "Mutes/Unmutes the master volume."
+  (run-shell-command "pactl set-sink-mute 1 toggle")
+  (cl-ppcre:register-groups-bind (state)
+      ("Mute: (yes|no)" (run-shell-command "pactl list" t))
+    (if (equalp state "yes")
+        (message "muted.")
+        (message "unmuted."))))
+(define-key *top-map* (kbd "XF86AudioMute") "volume-mute-toggle")
+
+;;;
+
+;; switch keyboard layouts between English and Persian by pressing
+;; both shift keys. CAPS LOCK LED will be the keyboard layout
+;; indicator.
+(run-shell-command
+ "setxkbmap \"pc+us+ir:2+inet(evdev)+group(shifts_toggle)\" -option grp_led:caps"
+ t)
+
+;; load keyboard map
+(run-shell-command "xmodmap ~/.xmodmap")
+
+;; make the mouse pointer an arrow
+(run-shell-command "xsetroot -cursor_name left_ptr")

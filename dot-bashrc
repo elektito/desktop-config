@@ -1,0 +1,26 @@
+# -*- shell-script -*-
+
+e()
+{
+   [ -z $1 ] && emacsclient -t -e '(switch-to-buffer "foobar")' \
+             || emacsclient -t "$@"
+}
+
+ec()
+{
+   [ -z $1 ] && emacsclient -c -e '(switch-to-buffer "foobar")' \
+             || emacsclient -c "$@"
+}
+
+es() { e "/sudo::$@"; }
+ecs() { ec "/sudo::$@"; }
+
+eh() { eh "/ssh:$@"; }
+ech() { ech "/ssh:$@"; }
+
+alias emacs-kill-daemon='e -e "(let ((last-nonmenu-event nil))(save-buffers-kill-emacs))"'
+
+export EDITOR="emacsclient -t"
+
+# change prompt color to grey
+export PS1='\[\e[1;30m\][\u@\h \W]\$\[\e[0m\] '
