@@ -22,5 +22,9 @@ alias emacs-kill-daemon='e -e "(let ((last-nonmenu-event nil))(save-buffers-kill
 
 export EDITOR="emacsclient -t"
 
-# change prompt color to grey
+# set the general prompt
 export PS1='\[\e[1;30m\][\u@\h \W]\$\[\e[0m\] '
+
+# enable the git prompt
+GIT_PROMPT_ONLY_IN_REPO=1
+source bash-git-prompt/gitprompt.sh
