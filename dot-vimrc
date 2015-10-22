@@ -34,11 +34,15 @@ vnoremap  <Right>  <NOP>
 filetype plugin indent on
 
 " C indenting options
-"
-" indent size = 2
-" don't indent function return type
-" no indenting for C++ namespaces
-set cinoptions=>2t0N-s
+
+" Indent size = 2
+set cinoptions+=>2
+
+" Don't indent function return type
+set cinoptions+=t0
+
+" No indenting for C++ namespaces
+set cinoptions+=N-s
 
 " Remove trailing spaces before saving
 autocmd BufWritePre * :%s/\s\+$//e
