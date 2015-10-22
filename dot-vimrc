@@ -41,8 +41,15 @@ set cinoptions+=>2
 " Don't indent function return type
 set cinoptions+=t0
 
+" Put cases on the same indentation level as switch
+set cinoptions+=:0
+
 " No indenting for C++ namespaces
 set cinoptions+=N-s
+
+" Put C++ scope labels on the same level as class
+set cinoptions+=g0
+
 
 " Remove trailing spaces before saving
 autocmd BufWritePre * :%s/\s\+$//e
