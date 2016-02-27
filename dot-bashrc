@@ -23,7 +23,7 @@ alias emacs-kill-daemon='e -e "(let ((last-nonmenu-event nil))(save-buffers-kill
 export EDITOR="emacsclient -t"
 
 # set the general prompt
-export PS1='\[\e[1;30m\][\u@\h \W]\$\[\e[0m\] '
+export PS1='\[\e[1;32m\][\u@\h \e[1;34m\]\W\e[1;32m\]]\$\[\e[0m\] '
 
 # enable the git prompt
 GIT_PROMPT_ONLY_IN_REPO=1
