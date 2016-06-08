@@ -166,6 +166,7 @@
 
 (defcommand music-stop () ()
   "Stop music playback."
+  (run-shell-command "cmus-remote -u")
   (message "stop"))
 
 (define-key *top-map* (kbd "XF86AudioPrev") "music-prev")
