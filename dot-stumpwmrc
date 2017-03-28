@@ -99,14 +99,14 @@
 ;; setup volume control key bindings
 (defcommand volume-up () ()
   "Increases master volume by 5 percent."
-  (let ((result (run-shell-command "amixer sset Master 5%+" t)))
+  (let ((result (run-shell-command "amixer -D pulse sset Master 5%+" t)))
     (cl-ppcre:register-groups-bind (pct) ("\\[(\\d+)%\\]" result)
       (message "~a%" pct))))
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "volume-up")
 
 (defcommand volume-down () ()
   "Increases master volume by 5 percent."
-  (let ((result (run-shell-command "amixer sset Master 5%-" t)))
+  (let ((result (run-shell-command "amixer -D pulse sset Master 5%-" t)))
     (cl-ppcre:register-groups-bind (pct) ("\\[(\\d+)%\\]" result)
       (message "~a%" pct))))
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "volume-down")
@@ -124,12 +124,12 @@
 
 (defcommand volume-mute-toggle () ()
   "Mutes/Unmutes the master volume."
-  (run-shell-command "pactl set-sink-mute 1 toggle")
   (cl-ppcre:register-groups-bind (state)
-      ("Mute: (yes|no)" (run-shell-command "pactl list" t))
-    (if (equalp state "yes")
-        (message "muted.")
-        (message "unmuted."))))
+      ("\\[(on|off)\\]" (run-shell-command "amixer -D pulse" t))
+    (run-shell-command (if (equalp state "on")
+                           "amixer -D pulse sset Master mute"
+                           "amixer -D pulse sset Master unmute"))
+    (message (if (equalp state "on") "muted." "unmuted."))))
 (define-key *top-map* (kbd "XF86AudioMute") "volume-mute-toggle")
 
 ;;;
