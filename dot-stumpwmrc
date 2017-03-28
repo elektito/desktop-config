@@ -56,7 +56,7 @@
 (defcommand web-browser () ()
   "Start web browser or switch to it, if it is already running."
   ;;(run-or-raise "firefox" '(:class "Firefox")))
-  (run-or-raise "chromium-browser" '(:class "chromium-browser")))
+  (run-or-raise "chromium-browser" '(:class "Chromium-browser")))
 (define-key *root-map* (kbd "x") "web-browser")
 (define-key *root-map* (kbd "C-x") "web-browser")
 
