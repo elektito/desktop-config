@@ -233,6 +233,15 @@
 
 ;;;
 
+;; screen locking
+(defcommand lock-screen () ()
+  "Lock the screen"
+  (run-shell-command "slock"))
+
+(define-key *root-map* (kbd "L") "lock-screen")
+
+;;;
+
 ;; switch keyboard layouts between English and Persian by pressing
 ;; both shift keys. CAPS LOCK LED will be the keyboard layout
 ;; indicator.
