@@ -53,3 +53,6 @@ set cinoptions+=g0
 
 " Remove trailing spaces before saving
 autocmd BufWritePre * :%s/\s\+$//e
+
+" Choose a color theme for dark backgrounds
+set background=dark
