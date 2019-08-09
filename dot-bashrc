@@ -21,3 +21,5 @@ ech() { ech "/ssh:$@"; }
 alias emacs-kill-daemon='e -e "(let ((last-nonmenu-event nil))(save-buffers-kill-emacs))"'
 
 export EDITOR="emacsclient -t"
+
+eval $(keychain --quiet --eval id_rsa)
