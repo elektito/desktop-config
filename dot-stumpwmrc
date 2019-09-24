@@ -242,6 +242,13 @@
 
 ;;;
 
+(defcommand file-manager () ()
+  (run-shell-command "nautilus --no-desktop"))
+
+(define-key *root-map* (kbd "N") "file-manager")
+
+;;;
+
 ;; switch keyboard layouts between English and Persian by pressing
 ;; both shift keys. CAPS LOCK LED will be the keyboard layout
 ;; indicator.
