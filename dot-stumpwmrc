@@ -26,6 +26,7 @@
 ;;;
 
 (load "/home/mostafa/source/slime/swank-loader.lisp")
+(require :swank)
 (swank-loader:init)
 (defcommand swank () ()
   (setf stumpwm:*top-level-error-action* :break)
