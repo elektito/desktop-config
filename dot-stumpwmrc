@@ -143,31 +143,31 @@
     group))
 
 (defcommand music-status () ()
-  (let* ((out (run-shell-command "cmus-remote -Q" t))
-         (status (get-first-capture "^status (.+)$" out))
-         (artist (get-first-capture "^tag artist (.*)$" out))
-         (album (get-first-capture "^tag album (.*)$" out))
-         (title (get-first-capture "^tag title (.*)$" out)))
+  (let* ((out (run-shell-command "playerctl metadata" t))
+         (artist (get-first-capture "^\.+ xesam:artist +(.*)$" out))
+         (album (get-first-capture "^\.+ xesam:album +(.*)$" out))
+         (title (get-first-capture "^\.+ xesam:title\\s+(.*)$" out))
+         (status (run-shell-command "playerctl status" t)))
     (message (format nil "~a~%~a~%~a - ~a" status title artist album))))
 
 (defcommand music-prev () ()
   "Go to the previous music track."
-  (run-shell-command "cmus-remote -r")
+  (run-shell-command "playerctl previous")
   (music-status))
 
 (defcommand music-next () ()
   "Go to the next music track."
-  (run-shell-command "cmus-remote -n")
+  (run-shell-command "playerctl next")
   (music-status))
 
 (defcommand music-toggle-play-pause () ()
   "Play/pause music playback."
-  (run-shell-command "cmus-remote -u")
+  (run-shell-command "playerctl play-pause")
   (music-status))
 
 (defcommand music-stop () ()
   "Stop music playback."
-  (run-shell-command "cmus-remote -u")
+  (run-shell-command "playerctl stop")
   (message "stop"))
 
 (define-key *top-map* (kbd "XF86AudioPrev") "music-prev")
