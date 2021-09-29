@@ -4,6 +4,10 @@
 
 ;;;
 
+;; consider only the current group in run-or-raise. this can also be
+;; set per invocation, if desired.
+(setf *run-or-raise-all-groups* nil)
+
 (defun cat (&rest strings) "A shortcut for (concatenate 'string foo bar)."
   (apply 'concatenate 'string strings))
 
