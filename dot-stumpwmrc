@@ -266,3 +266,5 @@
 
 ;; make the mouse pointer an arrow
 (run-shell-command "xsetroot -cursor_name left_ptr")
+
+(run-shell-command "unity-settings-daemon")
