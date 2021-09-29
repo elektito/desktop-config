@@ -41,12 +41,12 @@
 ;;;
 
 (defcommand terminal () ()
-  "Start Firefox or switch to it, if it is already running."
+  "Start terminal or switch to it, if it is already running."
   (run-or-raise "st" '(:class "st")))
 (define-key *root-map* (kbd "C-c") "terminal")
 
 (defcommand new-terminal () ()
-  "Start Firefox or switch to it, if it is already running."
+  "Start terminal or switch to it, if it is already running."
   (run-shell-command "st"))
 (define-key *root-map* (kbd "c") "new-terminal")
 
