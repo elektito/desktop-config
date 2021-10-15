@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=StumpWM
+TryExec=stumpwm
+Exec=/bin/sh /usr/local/bin/run-stumpwm.sh
+NoDisplay=true
+
