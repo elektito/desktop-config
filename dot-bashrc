@@ -23,7 +23,7 @@ alias emacs-kill-daemon='e -e "(let ((last-nonmenu-event nil))(save-buffers-kill
 export EDITOR="emacsclient -t"
 
 eval $(keychain --quiet --eval id_rsa)
-export PATH=$PATH:~/bin
+export PATH=$PATH:~/bin:~/.emacs.d/bin
 
 # See emacs-libvterm README about these functions
 vterm_printf() {
