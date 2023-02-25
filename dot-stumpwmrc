@@ -54,7 +54,7 @@
   "Start web browser or switch to it, if it is already running."
   ;;(run-or-raise "firefox" '(:class "Firefox")))
   (run-or-raise "google-chrome --disable-features=SendMouseLeaveEvents" '(:class "Google-chrome")))
-(define-key *root-map* (kbd "x") "exec google-chrome")
+(define-key *root-map* (kbd "x") "exec google-chrome --disable-features=SendMouseLeaveEvents")
 (define-key *root-map* (kbd "C-x") "web-browser")
 
 ;; ask the user for a search string and search for it in Wikipedia
