@@ -30,6 +30,7 @@
 ;;;
 
 ;; slynk should be loaded using (ql:quicklisp :slynk) before building stumpwm
+;; run sly-connect in emacs to connect to the server.
 (require :slynk)
 (slynk:create-server :port 4004
                      :dont-close t)
