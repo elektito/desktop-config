@@ -232,16 +232,15 @@
 (define-key *top-map* (kbd "Print") "screenshot")
 (define-key *top-map* (kbd "Sys_Req") "screenshot-window") ; Shift+Print Screen
 
-;;;
+;;; screen locking
 
-;; screen locking
 (defcommand lock-screen () ()
   "Lock the screen"
   (run-shell-command "slock"))
 
 (define-key *root-map* (kbd "L") "lock-screen")
 
-;;;
+;;; file manager
 
 (defcommand file-manager () ()
   (run-shell-command "nautilus --no-desktop"))
