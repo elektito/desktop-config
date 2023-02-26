@@ -249,7 +249,7 @@
 ;; both shift keys. CAPS LOCK LED will be the keyboard layout
 ;; indicator.
 (run-shell-command
- "setxkbmap \"pc+us+ir:2+inet(evdev)+group(shifts_toggle)\" -option grp_led:caps"
+ "setxkbmap \"pc+us+ir:2+inet(evdev)+group(shifts_toggle)\" -option ctrl:swap_lalt_lctl -option ctrl:swap_ralt_rctl"
  t)
 
 ;; make the mouse pointer an arrow
