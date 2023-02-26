@@ -11,6 +11,8 @@
 (defun cat (&rest strings) "A shortcut for (concatenate 'string foo bar)."
   (apply 'concatenate 'string strings))
 
+(set-module-dir "~/source/stumpwm-contrib/")
+
 ;;;
 
 (set-prefix-key (kbd "C-j"))
@@ -245,6 +247,13 @@
   (run-shell-command "nautilus --no-desktop"))
 
 (define-key *root-map* (kbd "N") "file-manager")
+
+;;; backlight (screen brightness)
+
+(load-module "stump-backlight")
+
+(define-key *top-map* (kbd "XF86MonBrightnessUp") "backlight-increase")
+(define-key *top-map* (kbd "XF86MonBrightnessDown") "backlight-decrease")
 
 ;;;
 
