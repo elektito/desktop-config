@@ -115,17 +115,6 @@
 (defcommand volume-mute-toggle () ()
   "Mutes/Unmutes the master volume."
   (cl-ppcre:register-groups-bind (state)
-      ("Mute: (yes|no)" (run-shell-command "pactl list" t))
-    (cond ((equalp state "yes")
-           (run-shell-command "pactl set-sink-mute 0 0")
-           (message "unmuted."))
-          (t
-           (run-shell-command "pactl set-sink-mute 0 1")
-           (message "muted.")))))
-
-(defcommand volume-mute-toggle () ()
-  "Mutes/Unmutes the master volume."
-  (cl-ppcre:register-groups-bind (state)
       ("\\[(on|off)\\]" (run-shell-command "amixer -D pulse" t))
     (run-shell-command (if (equalp state "on")
                            "amixer -D pulse sset Master mute"
