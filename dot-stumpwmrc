@@ -243,6 +243,27 @@
 (define-key *top-map* (kbd "XF86MonBrightnessUp") "backlight-increase")
 (define-key *top-map* (kbd "XF86MonBrightnessDown") "backlight-decrease")
 
+;;; initialize groups
+
+(when *initializing*
+  (grename "Youtube")  ; rename default group
+  (gnewbg "Steam")
+  (gnewbg "Work")
+  (gnewbg "Web")
+  (gnewbg "VM"))
+
+;; control the rat using keyboard
+
+(load-module "binwarp")
+(binwarp:define-binwarp-mode my-binwarp-mode "s-m" (:map *top-map*)
+  ((kbd "SPC") "ratclick 1")
+  ((kbd "RET") "ratclick 3")
+  ((kbd "C-b") "binwarp left")
+  ((kbd "C-n") "binwarp down")
+  ((kbd "C-p") "binwarp up")
+  ((kbd "C-f") "binwarp right")
+  ((kbd "i")   "init-binwarp"))
+
 ;;;
 
 ;; switch keyboard layouts between English and Persian by pressing
