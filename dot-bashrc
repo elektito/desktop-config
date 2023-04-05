@@ -2,14 +2,14 @@
 
 e()
 {
-   [ -z $1 ] && emacsclient -t -e '(switch-to-buffer "foobar")' \
+   [ -z $1 ] && emacsclient -t -c \
              || emacsclient -t "$@"
 }
 
 ec()
 {
-   [ -z $1 ] && emacsclient -c -e '(switch-to-buffer "foobar")' \
-             || emacsclient -c "$@"
+   [ -z $1 ] && emacsclient -t -c \
+             || emacsclient -t "$@"
 }
 
 es() { e "/sudo::$@"; }
